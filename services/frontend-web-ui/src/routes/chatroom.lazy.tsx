@@ -1,4 +1,4 @@
-import { Button, Group, Stack, TextInput } from '@mantine/core'
+import { Button, Group, ScrollArea, Stack, TextInput } from '@mantine/core'
 import { createLazyFileRoute } from '@tanstack/react-router'
 import { useEffect, useRef, useState } from 'react'
 
@@ -16,51 +16,27 @@ interface ChatProps {
 }
 
 function Chat({messages}: ChatProps) {
-  return <Stack h='90%'>
+  return <ScrollArea h='90%'>
   {messages.map((message, index) => <Message key={index} message={message}/>)}
-</Stack>
+</ScrollArea>
 }
 
-interface UserMessageControlsProps {
-  messages: string[]
-  setMessages: React.Dispatch<React.SetStateAction<string[]>>
-  ws: null | WebSocket
-}
-
-function UserMessageControls({ws}: UserMessageControlsProps) {
-  const [message, setMessage] = useState<string>('')
-
- 
-    const sendMessage = () => {
-      console.log('send message', ws, ws?.readyState, WebSocket.OPEN)
-   
-
-      if (ws && ws.readyState === WebSocket.OPEN) {
-        ws.send(message);
-        setMessage('');
-      }else {
-        console.error('WebSocket is not open');
-      }
-    };
-
-
-  return     <Group justify='center' w='100%'>
-  <TextInput w='80%' value={message} onChange={(event) => setMessage(event.currentTarget.value)} />
-  <Button 
-    w='15%' 
-    onClick={() => {
-       sendMessage()
-    }} 
-    disabled={message.trim() === ''}
-  >
-    Send
-  </Button>
-</Group>
-}
 
 function ChatRoom() {
   const [messages, setMessages] = useState(['wow', 'great', 'lets do it', 'bring the pain'])
   const ws  = useRef<null | WebSocket>(null);
+  const [message, setMessage] = useState<string>('')
+
+  const sendMessage = () => {
+ 
+
+    if (ws.current && ws.current.readyState === WebSocket.OPEN) {
+      ws.current.send(message);
+      setMessage('');
+    }else {
+      console.error('WebSocket is not open');
+    }
+  };
 
   useEffect(() => {
     let reconnectInterval: NodeJS.Timeout | string | number | undefined;
@@ -109,7 +85,18 @@ function ChatRoom() {
 
   return <Stack h='90svh' m='md'>
       <Chat messages={messages}/>
-      <UserMessageControls setMessages={setMessages} messages={messages} ws={ws.current}/>
+      <Group justify='center' w='100%'>
+  <TextInput w='80%' value={message} onChange={(event) => setMessage(event.currentTarget.value)} />
+  <Button 
+    w='15%' 
+    onClick={() => {
+       sendMessage()
+    }} 
+    disabled={message.trim() === ''}
+  >
+    Send
+  </Button>
+</Group>
     </Stack>
 }
 
