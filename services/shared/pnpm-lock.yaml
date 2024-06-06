@@ -1,0 +1,16 @@
+lockfileVersion: '6.0'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+dependencies:
+  valibot:
+    specifier: 0.31.0-rc.0
+    version: 0.31.0-rc.0
+
+packages:
+
+  /valibot@0.31.0-rc.0:
+    resolution: {integrity: sha512-c8HERUa1wthubHtWn0EXJIw4itUEMq2WMZEVaV8zv0a0654aGDX+Ln1Ba5smAjFdntIn/0tDCqdeYYRibfhwtQ==}
+    dev: false
