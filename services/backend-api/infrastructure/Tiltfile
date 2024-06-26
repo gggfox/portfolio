@@ -1,0 +1,13 @@
+# Tiltfile
+
+# Load Kubernetes YAMLs
+k8s_yaml('postgres-secret.yaml')
+k8s_yaml('postgres-pvc.yaml')
+k8s_yaml('postgres.yaml')
+k8s_yaml('server.yaml')
+
+# Define Docker build for the server
+docker_build('gggfox/portfolio', './..')
+
+# Watch the server deployment and port forward
+k8s_resource('server', port_forwards='30001:3000')

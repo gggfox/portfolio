@@ -8,18 +8,16 @@ export function initWebSocket(
   // Websocket
 
   const wss = new WebSocketServer({ noServer: true });
-  const messages: string[] = ["something", "else"];
+  const messages: string[] = [];
 
   wss.on("connection", function connection(ws) {
     console.log("New client connected");
     ws.on("error", onSocketPostError);
 
     //ws.on("error", console.error);
-
+    messages.forEach((m) => ws.send(m));
     ws.on("message", (message) => {
       console.log("Received: %s", message);
-
-      messages.forEach((m) => ws.send(m));
 
       // Broadcast to all connected clients
       wss.clients.forEach((client) => {
