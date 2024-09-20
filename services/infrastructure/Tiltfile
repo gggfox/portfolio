@@ -1,0 +1,30 @@
+# Tiltfile Dev
+
+# Load Kubernetes YAMLs
+k8s_yaml('postgres-sc.yaml') 
+k8s_yaml('postgres-pv.yaml') 
+k8s_yaml('postgres.secret.yaml')
+k8s_yaml('postgres-pvc.yaml')
+k8s_yaml('postgres.yaml')
+k8s_yaml('server.yaml')
+k8s_yaml('frontend-web.yaml')
+
+# Define Docker build for the server
+docker_build('gggfox/portfolio', './../backend-api', dockerfile='./../backend-api/Dockerfile')
+
+local_resource(
+  'deploy',
+  'date +%s > start-time.txt'
+)
+k8s_resource('frontend-web', port_forwards='8080:80', resource_deps=['deploy'])
+
+# Define Docker build for the server
+#docker_build('gggfox/portfolio-web-frontend', './../frontend-web', dockerfile='./../frontend-web/Dockerfile')
+
+
+
+# Watch the server deployment and port forward
+k8s_resource('server', port_forwards='30001:3000')
+
+# Watch the server deployment and port forward
+k8s_resource('frontend-web', port_forwards='5177:80')

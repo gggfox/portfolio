@@ -1,0 +1,6 @@
+- light and darkmode
+- CV (auto update from drive download pdf)
+- Blog Posts
+- threejs game (multiplayer ???)
+- drag and drop kanban
+- 

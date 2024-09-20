@@ -1,0 +1,21 @@
+{
+	"name": "portfolio",
+	"version": "1.0.0",
+	"description": "",
+	"type": "module",
+	"main": "src/main.ts",
+	"scripts": {
+		"client": "cd services/frontend-web-ui && pnpm start",
+		"server": "cd services/backend-api && pnpm start",
+		"dev": "concurrently \"pnpm run server\" \"pnpm run client\""
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"concurrently": "^8.2.2"
+	},
+	"dependencies": {
+		"@dimforge/rapier3d-compat": "^0.14.0"
+	}
+}
