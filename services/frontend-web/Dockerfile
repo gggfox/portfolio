@@ -1,33 +1,18 @@
-# Use an official Node runtime as a parent image
-FROM node:22 AS build
-
-# Set the working directory
+FROM node:20 AS build
 WORKDIR /app
 
-# Copy package.json and package-lock.json to the working directory
-COPY package*.json ./
-
-# Install dependencies
+ADD package*.json ./
 RUN npm install --legacy-peer-deps
 
-#RUN npm install typescript
-# Copy the rest of the application code to the working directory
-COPY . .
 
-# Ensure TypeScript is available
-#RUN npm run typecheck
+ADD . .
 
-# Build the application
-RUN npm run build
+EXPOSE 5173
 
-# Use a minimal HTTP server to serve the static files
-FROM nginx:alpine
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
 
-# Copy the build output from the previous stage to the Nginx HTML directory
-COPY --from=build /app/dist /usr/share/nginx/html
+# RUN npm run dev
+# RUN ls dist
 
-# Expose the port Nginx runs on
-EXPOSE 80
-
-# Start Nginx
-CMD ["nginx", "-g", "daemon off;"]
+# #ENTRYPOINT [ "node", "/app/dist/index.js" ]
+# ENTRYPOINT [ "ls", "dist" ]

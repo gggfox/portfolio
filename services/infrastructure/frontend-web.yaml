@@ -14,17 +14,31 @@ spec:
         app: frontend-web
     spec:
       containers:
-      - name: frontend-web
-        image: gggfox/portfolio-web-frontend:latest
-        resources:
-          requests:
-            memory: "512Mi"
-            cpu: "500m"
-          limits:
-            memory: "1Gi"
-            cpu: "1"
-        ports:
-        - containerPort: 80
+        - name: frontend-web
+          image: gggfox/portfolio-web-frontend:latest
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "500m"
+            limits:
+              memory: "2Gi"
+              cpu: "1"
+          ports:
+            - containerPort: 5173
+
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 5173
+            initialDelaySeconds: 5
+            periodSeconds: 10
+
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 5173
+            initialDelaySeconds: 5
+            periodSeconds: 10
 ---
 apiVersion: v1
 kind: Service
@@ -37,5 +51,5 @@ spec:
     app: frontend-web
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: 80
+      port: 5173
+      targetPort: 5173

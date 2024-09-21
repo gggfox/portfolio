@@ -5,6 +5,8 @@ node_modules
 *.test.tsx
 
 # Ignore other files and directories you don't want to include in the image
+dist
+*.log
 .git
 .gitignore
 Dockerfile

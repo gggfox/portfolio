@@ -8,6 +8,22 @@ export default defineConfig({
   publicDir: 'public',
   base: './',
   assetsInclude: ['**/*.glb'],
+  esbuild: {
+    target: 'es2020', // You can adjust this for your needs
+    keepNames: true, // Helps reduce memory usage during tree-shaking
+  },
+  server: {
+    port: 5173, // Ensure Vite always uses port 5173
+    strictPort: true, // Fail if the port is already in use
+    host: '0.0.0.0',
+    hmr: {
+      overlay: false, // Disable HMR overlay to reduce memory consumption
+    },
+    watch: {
+      usePolling: true, // This ensures the file watcher works in Docker
+      interval: 1000, // Adjust polling interval for better performance
+    },
+  },
 
   test: {
     globals: true,
