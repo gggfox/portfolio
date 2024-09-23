@@ -1,11 +1,10 @@
-import { Layout } from '@/components/Layout';
-import { Center, shaderMaterial, Text3D } from '@react-three/drei';
+import { shaderMaterial } from '@react-three/drei';
 import { Canvas, extend, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import portalVertexShader from '@/shaders/kalydoscope/vertex.glsl';
 import portalFragmentShader from '@/shaders/kalydoscope/fragment.glsl';
-import { useRef } from 'react';
-
+import { useEffect, useRef, useState } from 'react';
+import classes from './NotFound404.module.css';
 // Define a GLSL shader material for the gradient
 const GradientMaterial = shaderMaterial(
   {
@@ -35,30 +34,37 @@ const GradientPlane = () => {
   });
 
   return (
-    <Center ref={textRef}>
-      <Text3D
-        font="./fonts/helvetiker_regular.typeface.json"
-        scale={200}
-        bevelEnabled
-        bevelThickness={0.02}
-        bevelSize={0.02}
-        bevelOffset={0}
-        bevelSegments={5}
-      >
-        {`404 page\nnot found`}
-        <gradientMaterial ref={materialRef} />
-      </Text3D>
-    </Center>
-    // <mesh scale={[window.innerWidth, window.innerHeight, 1]}>
-    //   <planeGeometry args={[2, 2, 1]} />
-    //   <gradientMaterial ref={materialRef} />
-    // </mesh>
+    // <Center ref={textRef}>
+    //   <Text3D
+    //     font="./fonts/helvetiker_regular.typeface.json"
+    //     scale={200}
+    //     bevelEnabled
+    //     bevelThickness={0.02}
+    //     bevelSize={0.02}
+    //     bevelOffset={0}
+    //     bevelSegments={5}
+    //   >
+    //     {`404 page\nnot found`}
+    //     <gradientMaterial ref={materialRef} />
+    //   </Text3D>
+    // </Center>
+    <mesh scale={[window.innerWidth, window.innerHeight, 1]}>
+      <planeGeometry args={[2, 2, 1]} />
+      <gradientMaterial ref={materialRef} />
+    </mesh>
   );
 };
 
 export function NotFound404Page() {
+  const [shouldRenderCanvas, setShouldRenderCanvas] = useState(false);
+
+  useEffect(() => {
+    // Prevent rendering Canvas immediately to avoid context loss issues
+    setShouldRenderCanvas(true);
+  }, []);
+
   return (
-    <Layout>
+    <>
       <Canvas
         style={{ height: '90vh' }}
         flat // gets rid of tone mapping
@@ -70,9 +76,9 @@ export function NotFound404Page() {
         }}
       >
         <ambientLight intensity={2.5} />
-
         <GradientPlane />
       </Canvas>
-    </Layout>
+      <p className={classes.title}>404 Error Page Not Found</p>
+    </>
   );
 }

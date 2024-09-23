@@ -16,6 +16,7 @@ export default defineConfig({
     port: 5173, // Ensure Vite always uses port 5173
     strictPort: true, // Fail if the port is already in use
     host: '0.0.0.0',
+    historyApiFallback: true,
     hmr: {
       overlay: false, // Disable HMR overlay to reduce memory consumption
     },
