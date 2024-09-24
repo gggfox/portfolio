@@ -4,9 +4,14 @@ import { CapsuleCollider, RigidBody, useRapier } from '@react-three/rapier';
 import { useRef } from 'react';
 import * as THREE from 'three';
 import { Controls } from './Experience';
-import { RapierRigidBody } from './types/rapier.types';
+import { RapierRigidBody, RapierVector3 } from './types/rapier.types';
+import { Vector3 } from '@dimforge/rapier3d-compat';
 
-export default function Player() {
+interface PlayerProps {
+  startingPosition: [number, number, number];
+}
+
+export default function Player({ startingPosition = [0, 1, 0] }: PlayerProps) {
   const body = useRef<RapierRigidBody>();
   const forward = useKeyboardControls<Controls>((state) => state.forward);
   const back = useKeyboardControls<Controls>((state) => state.back);
@@ -28,7 +33,7 @@ export default function Player() {
 
   useFrame((state, delta) => {
     if (!body.current) return;
-    const impulse = { x: 0, y: 0, z: 0 };
+    const impulse: RapierVector3 = { x: 0, y: 0, z: 0 };
 
     const impulseStrength = 30.6 * delta;
 
@@ -45,6 +50,10 @@ export default function Player() {
     }
     if (right && linvel.x < MAX_VELOCITY) {
       impulse.x += impulseStrength;
+    }
+
+    if (body.current.translation().y < -10) {
+      body.current.setTranslation(new Vector3(...startingPosition), true);
     }
 
     // jump
@@ -79,7 +88,7 @@ export default function Player() {
       colliders={false}
       restitution={0.2}
       friction={1}
-      position={[0, 1, 0]}
+      position={startingPosition}
       canSleep={false}
       mass={1}
       type="dynamic"
