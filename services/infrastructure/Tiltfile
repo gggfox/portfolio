@@ -8,6 +8,7 @@ k8s_yaml('postgres-pvc.yaml')
 k8s_yaml('postgres.yaml')
 k8s_yaml('server.yaml')
 k8s_yaml('frontend-web.yaml')
+k8s_yaml('ingress.yaml')
 
 # Define Docker build for the server
 docker_build('gggfox/portfolio', './../backend-api', dockerfile='./../backend-api/Dockerfile')
@@ -25,9 +26,10 @@ docker_build('gggfox/portfolio-web-frontend', './../frontend-web',
 )
 
 
+k8s_resource(new_name='ingress', objects=['ingress-service'], labels=["API"])
 
 # Watch the server deployment and port forward
-k8s_resource('server', port_forwards='30001:3000')
+k8s_resource('server', port_forwards='30001:3000',labels=["API"])
 
 # Watch the server deployment and port forward
 k8s_resource('frontend-web', port_forwards='5173:5173')

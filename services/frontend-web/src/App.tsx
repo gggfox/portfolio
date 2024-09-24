@@ -2,12 +2,16 @@ import '@mantine/core/styles.css';
 import { MantineProvider } from '@mantine/core';
 import { Router } from './Router';
 import { theme } from './theme';
-import { Layout } from './components/Layout';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 export default function App() {
+  const queryClient = new QueryClient();
+
   return (
     <MantineProvider theme={theme}>
-      <Router />
+      <QueryClientProvider client={queryClient}>
+        <Router />
+      </QueryClientProvider>
     </MantineProvider>
   );
 }
