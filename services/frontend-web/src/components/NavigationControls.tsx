@@ -6,7 +6,6 @@ export function NavigationControls() {
   const navigate = useNavigate();
   const location = useLocation();
   const routes = ROUTES.filter((r) => r.path !== '*');
-  console.log(routes);
   const data = routes.map(({ id }) => id ?? '');
 
   return (
@@ -16,7 +15,6 @@ export function NavigationControls() {
       data={data}
       withItemsBorders={false}
       onChange={(id) => {
-        console.log(id);
         const route = routes.filter((route) => route.id === id).at(0)!;
         navigate(route.path as To);
       }}
