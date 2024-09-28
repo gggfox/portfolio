@@ -19,7 +19,7 @@ export function NavigationControls() {
         navigate(route.path as To);
       }}
       defaultValue={routes[0].id}
-      value={routes.filter(({ path }) => path === location.pathname).at(0)?.id ?? null}
+      value={routes.filter(({ path }) => path === location.pathname).at(0)?.id ?? undefined}
       style={{
         position: 'absolute',
         bottom: '0%',

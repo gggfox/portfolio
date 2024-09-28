@@ -8,11 +8,11 @@ import { RapierRigidBody, RapierVector3 } from './types/rapier.types';
 import { Vector3 } from '@dimforge/rapier3d-compat';
 
 interface PlayerProps {
-  startingPosition: [number, number, number];
+  startingPosition?: [number, number, number];
 }
 
 export default function Player({ startingPosition = [0, 1, 0] }: PlayerProps) {
-  const body = useRef<RapierRigidBody>();
+  const body = useRef<RapierRigidBody | null>(null);
   const forward = useKeyboardControls<Controls>((state) => state.forward);
   const back = useKeyboardControls<Controls>((state) => state.back);
   const left = useKeyboardControls<Controls>((state) => state.left);
@@ -20,10 +20,10 @@ export default function Player({ startingPosition = [0, 1, 0] }: PlayerProps) {
   const jump = useKeyboardControls<Controls>((state) => state.jump);
   const { rapier, world } = useRapier();
 
-  const container = useRef();
-  const cameraTarget = useRef();
-  const cameraPosition = useRef();
-  const character = useRef();
+  const container = useRef<THREE.Group<THREE.Object3DEventMap> | null>(null);
+  const cameraTarget = useRef<THREE.Group<THREE.Object3DEventMap> | null>(null);
+  const cameraPosition = useRef<THREE.Group<THREE.Object3DEventMap> | null>(null);
+  const character = useRef<THREE.Group<THREE.Object3DEventMap> | null>(null);
   const cameraWorldPosition = useRef(new THREE.Vector3());
   const cmaeraLookAtWorldPosition = useRef(new THREE.Vector3());
   const cameraLookAt = useRef(new THREE.Vector3());

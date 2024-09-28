@@ -1,10 +1,10 @@
 import { useHelper } from '@react-three/drei';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 
 export function Light() {
-  const light = useRef();
-  useHelper(light.current, THREE.DirectionalLightHelper, 1, 'red');
+  const light = useRef<THREE.DirectionalLight>(null!);
+  useHelper(light, THREE.DirectionalLightHelper, 1, 'red');
   return (
     <>
       <directionalLight

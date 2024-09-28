@@ -11,7 +11,7 @@ interface BlockProps {
 }
 
 export function Block({ position = [-2, 0.5, 0] }: BlockProps) {
-  const block = useRef();
+  const block = useRef<THREE.Mesh>(null!);
   return (
     <RigidBody
       type="kinematicPosition"

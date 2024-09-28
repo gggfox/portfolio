@@ -9,7 +9,7 @@ export function enemyFrame(
   search: THREE.Vector3[],
   rapier: RapierContext,
   world: RapierWorld,
-  rayLines: React.RefObject<THREE.Line[]>,
+  rayLines: React.MutableRefObject<THREE.Line[]>,
   rayOriginRefs: React.MutableRefObject<THREE.Mesh[]>,
   rayDirectionRefs: React.MutableRefObject<THREE.Mesh[]>,
   scene: THREE.Scene,
@@ -55,7 +55,7 @@ export function enemyFrame(
         enemyState.current = { state: ENEMY_STATES.ATTACK, updatedAt: new Date().getTime() };
         materialRef.current.color.set('red');
         const linearVelocity = { x: direction.x * SPEED, y: 0, z: direction.z * SPEED };
-        rigidBody.current.setLinvel(linearVelocity, true);
+        rigidBody.current?.setLinvel(linearVelocity, true);
       }
     } else {
       if (
@@ -75,9 +75,9 @@ export function enemyFrame(
     if (hitbox && hitbox.current) {
       hitbox.current.setTranslation(
         {
-          x: rigidBody.current.translation().x,
-          y: rigidBody.current.translation().y + 0.55,
-          z: rigidBody.current.translation().z,
+          x: rigidBody.current?.translation().x ?? 0,
+          y: (rigidBody.current?.translation().y ?? 0) + 0.55,
+          z: rigidBody.current?.translation().z ?? 0,
         },
         true
       );

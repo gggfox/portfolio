@@ -1,5 +1,5 @@
 import { RootState, useFrame } from '@react-three/fiber';
-import { RigidBody } from '@react-three/rapier';
+import { RapierRigidBody, RigidBody } from '@react-three/rapier';
 import { useRef, useState } from 'react';
 import * as THREE from 'three';
 
@@ -7,8 +7,8 @@ const floor2Material = new THREE.MeshStandardMaterial({ color: 'cyan' });
 const boxGeometry = new THREE.BoxGeometry(0.5, 0.5, 0.2);
 
 function handlePlayerCollision(
-  name?: string,
-  setVisible?: React.Dispatch<React.SetStateAction<boolean>>
+  setVisible: React.Dispatch<React.SetStateAction<boolean>>,
+  name?: string
 ) {
   if (name === 'player') {
     setVisible(false);
@@ -33,8 +33,8 @@ interface CoinProps {
 }
 
 export function Coin({ position }: CoinProps) {
-  const coinRef = useRef();
-  const meshRef = useRef();
+  const coinRef = useRef<RapierRigidBody>(null!);
+  const meshRef = useRef<THREE.Mesh>(null!);
   const [visible, setVisible] = useState(true);
 
   useFrame((state, delta) => coinFrame(state, coinRef, visible, meshRef));
@@ -50,7 +50,7 @@ export function Coin({ position }: CoinProps) {
           friction={0}
           restitution={0.2}
           onIntersectionEnter={(payload) => {
-            handlePlayerCollision(payload.rigidBodyObject.name, setVisible);
+            handlePlayerCollision(setVisible, payload?.rigidBodyObject?.name);
           }}
         >
           <mesh

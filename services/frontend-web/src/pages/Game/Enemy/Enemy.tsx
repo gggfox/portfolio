@@ -31,7 +31,7 @@ export function Enemy({ position = [-2, 0.5, 0], debug = false }: EnemyProps) {
     updatedAt: new Date().getTime(),
   });
   const materialRef = useRef(IDLE_MATERIAL);
-  const hitBox = useRef(null);
+  const hitBox = useRef<RapierRigidBody>(null!);
 
   const search = useMemo<THREE.Vector3[]>(populateDirections, []);
 

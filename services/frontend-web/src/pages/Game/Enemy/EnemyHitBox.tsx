@@ -33,7 +33,7 @@ export function EnemyHitBox({ rigidBody, position, hitBox, enemyState }: EnemyHi
               },
               true
             );
-            hitBox.current.setTranslation(rigidBody.current.translation(), true);
+            hitBox.current?.setTranslation(rigidBody.current.translation(), true);
           }
         }
       }}
