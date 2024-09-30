@@ -5,12 +5,23 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
-  valibot:
-    specifier: 0.31.0-rc.0
-    version: 0.31.0-rc.0
+  zod:
+    specifier: ^3.23.8
+    version: 3.23.8
+
+devDependencies:
+  typescript:
+    specifier: ^5.6.2
+    version: 5.6.2
 
 packages:
 
-  /valibot@0.31.0-rc.0:
-    resolution: {integrity: sha512-c8HERUa1wthubHtWn0EXJIw4itUEMq2WMZEVaV8zv0a0654aGDX+Ln1Ba5smAjFdntIn/0tDCqdeYYRibfhwtQ==}
+  /typescript@5.6.2:
+    resolution: {integrity: sha512-NW8ByodCSNCwZeghjN3o+JX5OFH0Ojg6sadjEKY4huZ52TqbJTJnDo5+Tw98lSy63NZvi4n+ez5m2u5d4PkZyw==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+    dev: true
+
+  /zod@3.23.8:
+    resolution: {integrity: sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==}
     dev: false
