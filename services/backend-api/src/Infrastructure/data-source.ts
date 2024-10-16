@@ -1,5 +1,7 @@
 import { DataSource, DataSourceOptions } from "typeorm";
 import { User } from "../Features/Users/User.entity";
+import { Transaction } from "../Features/Finance/Transaction.entity";
+import { Session } from "../Features/Auth/Session.entity";
 
 export const dataSourceOptions: DataSourceOptions = {
   type: "postgres",
@@ -9,7 +11,7 @@ export const dataSourceOptions: DataSourceOptions = {
   password: process.env.POSTGRES_PASSWORD,
   synchronize: true,
   logging: false,
-  entities: [User],
+  entities: [User, Transaction, Session],
   migrations: [],
   subscribers: [],
 };

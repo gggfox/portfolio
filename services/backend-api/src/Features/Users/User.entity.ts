@@ -1,14 +1,38 @@
 import "reflect-metadata";
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
+import {
+  Entity,
+  PrimaryColumn,
+  Column,
+  BaseEntity,
+  OneToMany,
+  UpdateDateColumn,
+  CreateDateColumn,
+} from "typeorm";
+import { Transaction } from "../Finance/Transaction.entity";
 
 @Entity()
 export class User extends BaseEntity {
-  @PrimaryGeneratedColumn("uuid")
+  @PrimaryColumn()
   id!: string;
 
   @Column()
   username!: string;
 
-  @Column({ type: "varchar", length: 255, nullable: true })
-  password?: string | null;
+  @Column({ nullable: true })
+  email?: string;
+
+  @Column({ nullable: true })
+  pictureUrl?: string;
+
+  @Column("text", { array: true, nullable: true, default: [] })
+  roles?: string[];
+
+  @OneToMany(() => Transaction, (transaction) => transaction.user)
+  transactions!: Transaction[];
+
+  @CreateDateColumn()
+  createdAt!: Date;
+
+  @UpdateDateColumn()
+  updatedAt!: Date;
 }
