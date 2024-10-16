@@ -16,6 +16,12 @@ spec:
       containers:
         - name: frontend-web
           image: gggfox/portfolio-web-frontend:latest
+          env:
+            - name: VITE_SERVER_URL
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: VITE_SERVER_URL
           resources:
             requests:
               memory: "1Gi"

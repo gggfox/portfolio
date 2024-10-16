@@ -12,39 +12,57 @@ spec:
     metadata:
       labels:
         app: server
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "3000"
     spec:
       containers:
-      - name: server
-        image: gggfox/portfolio:latest
-        env:
-        - name: POSTGRES_HOST
-          value: postgres
-        - name: POSTGRES_USER
-          valueFrom:
-            secretKeyRef:
-              name: postgres-secret
-              key: POSTGRES_USER
-        - name: POSTGRES_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: postgres-secret
-              key: POSTGRES_PASSWORD
-        - name: POSTGRES_PORT
-          valueFrom:
-            secretKeyRef:
-              name: postgres-secret
-              key: POSTGRES_PORT
-        - name: API_PORT
-          value: '3000'
-        resources:
-          requests:
-            memory: "512Mi"
-            cpu: "500m"
-          limits:
-            memory: "1Gi"
-            cpu: "1"
-        ports:
-        - containerPort: 3000
+        - name: server
+          image: gggfox/portfolio:latest
+          env:
+            - name: POSTGRES_HOST
+              value: postgres
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: POSTGRES_PORT
+            - name: API_PORT
+              value: "3000"
+            - name: GOOGLE_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: GOOGLE_CLIENT_ID
+            - name: GOOGLE_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: GOOGLE_CLIENT_SECRET
+            - name: CLIENT_URL
+              valueFrom:
+                secretKeyRef:
+                  name: secrets
+                  key: CLIENT_URL
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "500m"
+            limits:
+              memory: "1Gi"
+              cpu: "1"
+          ports:
+            - containerPort: 3000
 ---
 apiVersion: v1
 kind: Service
@@ -54,8 +72,8 @@ metadata:
 spec:
   type: NodePort
   ports:
-  - port: 3000
-    targetPort: 3000
-    nodePort: 30001
+    - port: 3000
+      targetPort: 3000
+      nodePort: 30001
   selector:
     app: server

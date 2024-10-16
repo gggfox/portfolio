@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: caddy-config
+  namespace: portfolio
+data:
+  Caddyfile: |
+    {
+      email gerardogalangarzafox@gmail.com
+    }
+
+    space-cube.lat {
+      reverse_proxy server:30001
+    }
