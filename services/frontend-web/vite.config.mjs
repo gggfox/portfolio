@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import glsl from 'vite-plugin-glsl';
+import path from 'node:path';
 
 export default defineConfig({
   plugins: [react(), tsconfigPaths(), glsl()],
@@ -25,7 +26,9 @@ export default defineConfig({
       interval: 1000, // Adjust polling interval for better performance
     },
   },
-
+  resolve: {
+    alias: [{ find: '@shared', replacement: path.resolve(__dirname, '../shared') }],
+  },
   test: {
     globals: true,
     environment: 'jsdom',

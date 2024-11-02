@@ -16,10 +16,12 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
+    "baseUrl": "./",
     "paths": {
       "@/*": ["./src/*"],
-      "@test-utils": ["./test-utils"]
+      "@shared/*": ["../shared/*"],
+      "@backend/*": ["./../backend-api/src/*"]
     }
   },
-  "include": ["src", "test-utils"]
+  "include": ["src", "test-utils", "vite.config.mjs"]
 }

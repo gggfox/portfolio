@@ -13,8 +13,13 @@ import { AuthController } from "./Features/Auth/Auth.controller";
 import { Session } from "./Features/Auth/Session.entity";
 import { AppDataSource } from "./Infrastructure/data-source";
 import { SessionController } from "./Features/Auth/Session.controller";
+import { contract, fn } from "@shared/test";
 import * as client from "prom-client";
+import { createExpressEndpoints, initServer } from "@ts-rest/express";
+import { drizzle } from "drizzle-orm/node-postgres";
+import { DRIZZLE_URL } from "./drizzle.config";
 
+drizzle(DRIZZLE_URL);
 export const app = express();
 const register = new client.Registry();
 client.collectDefaultMetrics({ register });
@@ -60,7 +65,21 @@ app.options("*", cors());
 
 //initWebSocket(server);
 app.get("/health", (_req: Request, res: Response) => {
+  fn();
   res.send("server is listening");
 });
+
+const s = initServer();
+
+const router = s.router(contract, {
+  getPosts: async () => {
+    return {
+      status: 201,
+      body: "test",
+    };
+  },
+});
+
+createExpressEndpoints(contract, router, app);
 
 export const server = http.createServer(app);

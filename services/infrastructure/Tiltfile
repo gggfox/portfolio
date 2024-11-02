@@ -16,7 +16,7 @@ k8s_yaml('grafana.yaml')
 k8s_yaml('authorization.yaml')
 
 # Define Docker build for the server
-docker_build('gggfox/portfolio', '../backend-api', dockerfile='../backend-api/Dockerfile',    
+docker_build('gggfox/portfolio', '..', dockerfile='../Dockerfile.backend.dev',    ignore=['*/node_modules', '*/dist'],
 # live_update=[
 #         sync('./backend-api/src', '/portfolio-app/src'),  # Sync only backend API source
 #         sync('./shared/src', '/portfolio-app/shared/src') # Sync shared files
@@ -26,8 +26,10 @@ docker_build('gggfox/portfolio', '../backend-api', dockerfile='../backend-api/Do
 #k8s_resource('frontend-web', port_forwards='8080:80', resource_deps=['deploy'])
 
 # Define Docker build for the server
-docker_build('gggfox/portfolio-web-frontend', './../frontend-web', 
-  dockerfile='./../frontend-web/Dockerfile',  
+docker_build('gggfox/portfolio-web-frontend', '..', 
+  #dockerfile='./../frontend-web/Dockerfile',  
+  dockerfile='../Dockerfile.frontend.dev',
+  ignore=['*/node_modules', '*/dist'],
   live_update=[
         fall_back_on(['./../frontend-web/package.json', './../frontend-web/package-lock.json']),
         sync('./../frontend-web/src', '/app/src'),

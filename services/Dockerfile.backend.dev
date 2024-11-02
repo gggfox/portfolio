@@ -3,26 +3,33 @@ FROM node:22
 
 # Set the working directory
 WORKDIR /portfolio-app
+ADD ./shared ../shared
+RUN npm install --prefix /shared
 
 # Copy package.json and package-lock.json
-COPY package*.json ./
+ADD ./backend-api/package*.json .
 
 # Install dependencies
-RUN npm install
+RUN npm install 
 
 # Copy the source code and other necessary files
-COPY ./src ./src
+ADD ./backend-api/src ./src
 
 RUN npm install typescript
+RUN npm install tsconfig-paths 
 
 # Copy tsconfig.json
-COPY ./tsconfig.json ./
+ADD ./backend-api/tsconfig.json ./
 
 # Compile TypeScript code
-RUN npx tsc 
-
+RUN npx tsc && echo "TypeScript compiled successfully"
+RUN ls -la
+#RUN mv ./dist/shared ./dist/app
 # Expose the port the app runs on (optional, depends on your app)
 EXPOSE 3000
+# drizzle studio
+EXPOSE 4983 
 
+CMD ["sh", "-c", "npm run build && ls"]
 # Define the command to run the app (optional, depends on your app)
-CMD ["node", "./dist/main.js"] 
+#CMD [ "node", "dist/app/src/main.js"] 

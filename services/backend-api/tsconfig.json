@@ -23,8 +23,12 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "resolveJsonModule": true,
-    "typeRoots": ["./node_modules/@types", "./src/types"]
+    "typeRoots": ["./node_modules/@types", "./types"],
+    "baseUrl": "./",
+    "paths": {
+      "@shared/*": ["../shared/*"]
+    }
   },
   "exclude": ["node_modules"],
-  "include": ["./**/*.tsx", "./**/*.ts", "src/types/**/*.d.ts"]
+  "include": ["./**/*.ts"]
 }
